@@ -1,19 +1,19 @@
 [Unit]
-Description=Neosy ip video camera
-After=syslog.target network.target
-After=nmount-nfs.service
-Requires=nmount-nfs.service
+  Description=Neosy ip video camera
+  After=syslog.target network.target
+  After=nmount-nfs.service
+  Requires=nmount-nfs.service
 
 [Service]
-User=
-Group=
-ExecStart=/usr/local/bin/sh_n/nvcam.sh
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s QUIT $MAINPID
-Type=simple
-Restart=on-failure
-RestartSec=10
-TimeoutStopSec=5
+  User=
+  Group=
+  ExecStart=/usr/local/bin/sh_n/nvcam.sh
+  ExecReload=/bin/kill -s HUP $MAINPID
+  ExecStop=/bin/kill -s QUIT $MAINPID
+  Type=simple
+  Restart=on-failure
+  RestartSec=10
+  TimeoutStopSec=5
 
 [Install]
-WantedBy=multi-user.target
+  WantedBy=multi-user.target
