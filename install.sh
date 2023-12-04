@@ -52,7 +52,7 @@ function install_log
 {
     mkdir -p $LOG_PATH
     chown $USER_GROUP $LOG_PATH
-    chmod 550 $LOG_PATH
+    chmod 750 $LOG_PATH
 }
 
 function main

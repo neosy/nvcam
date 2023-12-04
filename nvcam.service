@@ -1,5 +1,5 @@
 [Unit]
-  Description=Neosy ip video camera
+  Description=Recording from an IP camera @Neosy
   After=syslog.target network.target
   After=nmount-nfs.service
   Requires=nmount-nfs.service

@@ -32,7 +32,7 @@ LOG_STORE_COUNT=3
 
 OUTPUT_DIR="$VIDEO_CAMERA_NAME"
 
-mkdir -p $LOG_PATH
+FFMPEG_CMD="ffmpeg -rtsp_transport tcp -i $VIDEO_SRC $VIDEO_CODEC $VIDEO_QUALITY $AUDIO_CODEC $SERVICE_DIRATION_TIME -map 0 -f segment -segment_time $VIDEO_TLN -reset_timestamps 1 -strftime 1 ${OUTPUT_FILE_NAME}"
 
 WHILE_DELAY=5
 
@@ -79,6 +79,8 @@ clearSaveStore() {
 
 #=================== Begin program =======================
 
+mkdir -p $LOG_PATH
+
 trap 'echo Stop program...; exit' INT
 
 if ! [ -d ${VIDEO_DST}/${OUTPUT_DIR} ]; then
@@ -116,6 +118,6 @@ do
     rm_store "$LOG_FILEPATH/*/" $LOG_STORE_COUNT "-d"
     LOG_FILEPATH=$LOG_FILEPATH/$YEAR_MONTH_NOW
 
-    cd ${OUTPUT_PATH} && ffmpeg -rtsp_transport tcp -i $VIDEO_SRC $VIDEO_CODEC $VIDEO_QUALITY $AUDIO_CODEC $SERVICE_DURATION_TIME -map 0 -f segment -segment_time $VIDEO_TLN -reset_timestamps 1 -strftime 1 "${OUTPUT_FILE_NAME}" &>>${LOG_FILEPATH}/$LOG_FILENAME
+    cd ${OUTPUT_PATH} && $FFMPEG_CMD &>>${LOG_FILEPATH}/$LOG_FILENAME
     sleep $WHILE_DELAY
 done
