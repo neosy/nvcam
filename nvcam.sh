@@ -3,6 +3,9 @@
 # Author: Neosy <neosy.dev@gmail.com>
 #
 #==================================
+# Version 0.3
+#   1. Changing the logging level
+#==================================
 # Version 0.2
 #   1. Added config file
 #==================================
@@ -20,19 +23,24 @@ VIDEO_SRC=""
 VIDEO_DST=""
 VIDEO_STORE_SIZE=100 #MByte
 VIDEO_TLN=60 # Time len
-VIDEO_CODEC="" #copy mpeg4 h264 h265 #libx264
-VIDEO_QUALITY="" #-b:v 4096k -q:v 10   #-q:v 10   1-high     #-preset fast -crf 0
+VIDEO_CODEC="" ##-vcodec       copy mpeg4 h264 h265 #libx264
+VIDEO_QUALITY="" #-b:v 4096k -q:v 10   #-q:v 10   1-high     #-preset fast -crf 0     #-vf scale=1280:720,setdar=16/9
 AUDIO_CODEC=""
 SERVICE_DURATION_TIME="" # -t 01:00:00"
 OUTPUT_FILE_NAME=""
 LOG_PATH=""
-LOG_STORE_COUNT=3
+LOG_LEVEL="warning" #quiet, panic, fatal, error, warning, info, verbose, debug, trace
+LOG_STORE_COUNT=2
 
 . $CONF_FILE
 
 OUTPUT_DIR="$VIDEO_CAMERA_NAME"
 
-FFMPEG_CMD="ffmpeg -rtsp_transport tcp -i $VIDEO_SRC $VIDEO_CODEC $VIDEO_QUALITY $AUDIO_CODEC $SERVICE_DIRATION_TIME -map 0 -f segment -segment_time $VIDEO_TLN -reset_timestamps 1 -strftime 1 ${OUTPUT_FILE_NAME}"
+FFMPEG_CMD="ffmpeg -rtsp_transport tcp -loglevel $LOG_LEVEL \
+  -i $VIDEO_SRC $VIDEO_CODEC $VIDEO_QUALITY $AUDIO_CODEC $SERVICE_DIRATION_TIME \
+  -map 0 -f segment -segment_time $VIDEO_TLN \
+  -reset_timestamps 1 -strftime 1 \
+  ${OUTPUT_FILE_NAME}"
 
 WHILE_DELAY=5
 
